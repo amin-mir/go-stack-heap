@@ -60,7 +60,7 @@ contain huge amounts of data. There are two reasons behind this:
 In cases where we're dealing with large structs, we can just return/receive pointers to structs when we don't really care about the GC/heap allocations, or alternatively pass a pointer to struct to our function argument and fill it in the body.
 
 ```golang
-func process(arg *arg) res {
+func process(arg arg) res {
     ...
 }
 
