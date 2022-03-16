@@ -51,10 +51,13 @@ func (s *server) SayHello(ctx context.Context, req *pb.HelloRequest, rsp *pb.Hel
 ```
 
 ### Personal opinion/style
-I think in most cases, we should accept values/pointers and return values unless the struct 
-contains a huge amount of data. In such cases, we can just return pointers to structs when we don't
-really care about the GC/heap allocations or pass a pointer to struct to our function argument and
-fill it in the body.
+I think in most cases, we should accept values and return values unless the structs 
+contain huge amounts of data. There are two reasons behind this:
+
+1. Returning references to local memory of a function causes heap allocations.
+2. Passing pointers to interface method could potentially cause heap allocations.
+
+In cases where we're dealing with large structs, we can just return/receive pointers to structs when we don't really care about the GC/heap allocations, or alternatively pass a pointer to struct to our function argument and fill it in the body.
 
 ```golang
 func process(arg *arg) res {
